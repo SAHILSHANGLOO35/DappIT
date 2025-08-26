@@ -1,4 +1,5 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useState } from "react";
 
 export function Airdrop() {
@@ -12,21 +13,22 @@ export function Airdrop() {
     try {
       await connection.requestAirdrop(
         wallet.publicKey,
-        Number(airdropAmount) * 1000000000
+        Number(airdropAmount) * LAMPORTS_PER_SOL
       );
+      setAirdropAmount("");
     } catch (err) {
       console.error("Airdrop failed:", err);
     }
   }
 
   return (
-    <div className="flex gap-4">
+    <div className="text-neutral-100 flex flex-col items-center justify-center gap-8">
       <input
         type="text"
         value={airdropAmount}
         onChange={(e) => setAirdropAmount(e.target.value)}
         placeholder="Enter Amount"
-        className="border border-neutral-800 px-4 py-1 rounded-sm outline-none"
+        className="border border-neutral-500/40 bg-neutral-500/20 outline-none px-4 w-64 py-2"
       />
       <button
         className="px-4 py-1 bg-blue-600 rounded-sm cursor-pointer hover:bg-blue-800 transition-colors duration-200"
